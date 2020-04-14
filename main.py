@@ -63,23 +63,11 @@ def findMatches(obj, regex):
     match = regex.findall(obj)
     if match: return match
 
-def readFile(f):
-    '''
-    Reading file by chunks
-    obj - string
-    regex - re object
-    
-    Returns string
-    '''
-    with open (f) as f:
-        b = ''
-        while True:
-            a = f.read(1024)
-            if not a: break
-            b += a
-        return b
-
 def writeFile(d):
+    '''
+    Writing dictionary into yaml file.
+    d - proxy dictionary
+    '''
     print('Making yaml with all servers...')
     timestr = 'all_servers_' + time.strftime("%Y%m%d-%H%M%S") + '.yml'
     with open (timestr, 'w') as f:
@@ -114,6 +102,13 @@ def generateProxy(hosts):
         return d
   
 def generateConfig(login, password, proxy_d, port=80):
+    '''
+    Writing dictionary into txt file.
+    login - string
+    password - string
+    proxy_d - proxy dictionary 
+    port - integer/string
+    '''
     print('Making config file...')
     timestr = 'config_file_' + time.strftime("%Y%m%d-%H%M%S") + '.txt'
     with open (timestr, 'w') as f:
@@ -122,22 +117,10 @@ def generateConfig(login, password, proxy_d, port=80):
             f.write(s)            
 
 if __name__ == '__main__':  
-    '''
-    thelist = ['us4948.nordvpn.com', 'us4949.nordvpn.com', 'us4950.nordvpn.com', 'us4951.nordvpn.com', 'us4952.nordvpn.com', 'us4953.nordvpn.com', 'us4955.nordvpn.com', 'us5000.nordvpn.com', 'us5001.nordvpn.com', 'us5002.nordvpn.com', 'us5003.nordvpn.com', 'us5004.nordvpn.com', 'us5005.nordvpn.com', 'us5006.nordvpn.com', 'us5007.nordvpn.com', 'us5008.nordvpn.com', 'us5009.nordvpn.com', 'us5010.nordvpn.com', 'us5011.nordvpn.com', 'us5012.nordvpn.com', 'us5013.nordvpn.com', 'us5014.nordvpn.com', 'us5015.nordvpn.com', 'us5016.nordvpn.com', 'us5017.nordvpn.com', 'us5019.nordvpn.com', 'us502.nordvpn.com', 'us5020.nordvpn.com', 'us5021.nordvpn.com', 'us5022.nordvpn.com']
-    tl = ['us4948.nordvpn.com', 'us4949.nordvpn.com', 'us4950.nordvpn.com']    
-    d = {True: ['us4949.nordvpn.com', 'us4948.nordvpn.com', 'us5001.nordvpn.com', 'us5000.nordvpn.com', 'us5002.nordvpn.com', 'us5007.nordvpn.com', 'us5006.nordvpn.com', 'us5004.nordvpn.com', 'us5003.nordvpn.com', 'us5005.nordvpn.com', 'us5009.nordvpn.com', 'us5008.nordvpn.com', 'us5011.nordvpn.com', 'us5012.nordvpn.com', 'us5010.nordvpn.com', 'us5013.nordvpn.com', 'us5015.nordvpn.com', 'us5017.nordvpn.com', 'us5016.nordvpn.com', 'us5019.nordvpn.com', 'us5021.nordvpn.com', 'us502.nordvpn.com', 'us5020.nordvpn.com', 'us5022.nordvpn.com', 'us5014.nordvpn.com'], False: ['us4951.nordvpn.com', 'us4950.nordvpn.com', 'us4952.nordvpn.com', 'us4955.nordvpn.com', 'us4953.nordvpn.com']}
-
-    getContent(url_string)
-    l = findMatches(t, regex)
-    with open ('all_servers.txt', 'w') as f:
-        for line in l:
-            f.write(line + '\r\n')    
-    #Http://login:pass@server:port
-    '''
     t = getContent(url_string)
     try:
         l = findMatches(t, regex)    
-        d = generateProxy(thelist)
+        d = generateProxy(l)
         writeFile(d)
         print('Proxys list successfully generated!')
     except:
@@ -146,6 +129,7 @@ if __name__ == '__main__':
         login = input('Input login: ')
         password = getpass.getpass()
         generateConfig(login, password, d)
+        print('Success!')
     except:
         raise SystemExit('Something went terrible wrong!')
-    print('Success!')
+
